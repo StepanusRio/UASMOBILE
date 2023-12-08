@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Sparepart Motor Ahass Honda</string>
+    <string name="title_home">Overview</string>
+    <string name="title_order">Order</string>
+    <string name="title_profile">Profile</string>
+</resources>

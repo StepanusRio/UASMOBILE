@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:id="@+id/layoutItemOrder"
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="10dp"
+    android:layout_height="120dp">
+
+    <LinearLayout
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/ProductImageOrder"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/baseline_open_in_new_24" />
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvOrderName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Product Name" />
+
+            <TextView
+                android:id="@+id/tvOrderHargaJual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Product Harga" />
+
+            <TextView
+                android:id="@+id/tvOrderQty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jumlah" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTotalOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Jumlah Harga Perproduct" />
+
+            <ImageButton
+                android:id="@+id/DeleteItem"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="100dp"
+                android:src="@drawable/baseline_cancel_24"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
