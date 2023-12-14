@@ -3,6 +3,17 @@ package com.example.sparepartmotorahasshonda.Model;
 import com.google.gson.annotations.SerializedName;
 
 public class Order {
+    public Order(String id, String name, int hargaJual, Product.Image[] images, Product.Category kategori, int stock, int qty, int totalOrder) {
+        this.id = id;
+        this.name = name;
+        this.hargaJual = hargaJual;
+        this.images = images;
+        this.kategori = kategori;
+        this.stock = stock;
+        Qty = qty;
+        TotalOrder = totalOrder;
+    }
+
     @SerializedName("id")
     private String id;
 

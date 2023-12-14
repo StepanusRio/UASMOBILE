@@ -1,5 +1,6 @@
 package com.example.sparepartmotorahasshonda.ui.order;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -50,9 +51,9 @@ public class OrderFragment extends Fragment {
             String jsonText = sharedPreferences.getString("orderProduct", null);
             Integer total = 0;
             Order[] products = gson.fromJson(jsonText,Order[].class);
-            for (Order product:products){
-                orderProducts.add(product);
-                total += product.getTotalOrder();
+            for (Order order:products){
+                orderProducts.add(order);
+                total += order.getTotalOrder();
                 NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
                 formatRupiah.setCurrency(Currency.getInstance("IDR"));
                 tvTotal.setText(formatRupiah.format(total));
@@ -66,6 +67,7 @@ public class OrderFragment extends Fragment {
         rvOrder = view.findViewById(R.id.rvOrderList);
         tvTotal = view.findViewById(R.id.tvTotalHarga);
     }
+    @SuppressLint("SetTextI18n")
     public void deleteProduct(int position) {
         if (sharedPreferences.contains("orderProduct")){
             if (position >= 0 && position < orderProducts.size()){
@@ -73,16 +75,18 @@ public class OrderFragment extends Fragment {
                 orderAdapter.notifyItemRemoved(position);
                 orderAdapter.notifyItemRangeChanged(position,orderProducts.size());
                 Gson gson = new Gson();
-                String updateProductList = gson.toJson(orderProducts);
+                String updateOrderList = gson.toJson(orderProducts);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("orderProduct",updateProductList);
+                editor.putString("orderProduct",updateOrderList);
                 editor.apply();
-                Integer total = 0;
-                Order[] products = gson.fromJson(updateProductList,Order[].class);
-                for (Order product:products){
-                    total = product.getTotalOrder();
+                Integer Ordertotal = 0;
+                Order[] products = gson.fromJson(updateOrderList,Order[].class);
+                for (Order order:products){
+                    Ordertotal = order.getTotalOrder();
                 }
-                tvTotal.setText("Rp. "+total);
+                NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+                formatRupiah.setCurrency(Currency.getInstance("IDR"));
+                tvTotal.setText(formatRupiah.format(Ordertotal));
             }
         }
     }

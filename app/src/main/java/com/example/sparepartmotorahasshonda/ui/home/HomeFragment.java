@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.sparepartmotorahasshonda.API.ProductService;
 import com.example.sparepartmotorahasshonda.API.RetrofitClient;
 import com.example.sparepartmotorahasshonda.Adapter.ProductAdapter;
@@ -37,9 +40,16 @@ public class HomeFragment extends Fragment {
     private ProductAdapter viewAdapter;
     RecyclerView recyclerView;
     SharedPreferences sharedPreferences;
+    ImageSlider imageSlider;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,container,false);
         recyclerView = view.findViewById(R.id.rvProducts);
+        // Slider Image Featured / Services
+        imageSlider = view.findViewById(R.id.imageSlider);
+        ArrayList<SlideModel> slideModels = new ArrayList<>();
+        slideModels.add(new SlideModel(R.drawable.gajah, ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.jerapah, ScaleTypes.FIT));
+        imageSlider.setImageList(slideModels,ScaleTypes.FIT);
         viewAdapter = new ProductAdapter(getContext(),this,listProduct);
         SearchView searchView = view.findViewById(R.id.searchView);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),2);
@@ -87,46 +97,47 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-    public void addToCart(Product listProduct) {
+    public void addToCart(Product product) {
         sharedPreferences = getActivity().getSharedPreferences("OrderPreference", Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String jsonText = sharedPreferences.getString("orderProduct", null);
-
-        if (jsonText != null) {
-            Order[] orders = gson.fromJson(jsonText, Order[].class);
-            orderProducts.addAll(Arrays.asList(orders));
-        }
-
-        boolean isExisting = false;
-        for (Order order : orderProducts) {
-            if (order.getId() != null && listProduct.getId() != null &&
-                    order.getId().equals(listProduct.getId())) {
-                int updatedQty = order.getQty() + 1;
-                int updatedTotal = order.getTotalOrder() + listProduct.getHargaJual();
-                if (listProduct.getStock() >= updatedQty) {
-                    order.setQty(updatedQty);
-                    order.setTotalOrder(updatedTotal);
-                    isExisting = true;
-                    break;
-                }
+        sharedPreferences.contains("orderProduct");
+        if (sharedPreferences.contains("orderProduct")){
+            Gson gson = new Gson();
+            String jsonText = sharedPreferences.getString("orderProduct", null);
+            Order[] products = gson.fromJson(jsonText, Order[].class);
+            orderProducts.clear();
+            for (Order order : products) {
+                orderProducts.add(order);
             }
         }
-
-        if (!isExisting) {
-            Order newOrder = new Order();
-            newOrder.setId(listProduct.getId());
-            newOrder.setName(listProduct.getName());
-            newOrder.setHargaJual(listProduct.getHargaJual());
-            newOrder.setImages(listProduct.getImages());
-            newOrder.setStock(listProduct.getStock());
-            newOrder.setQty(1);
-            newOrder.setTotalOrder(listProduct.getHargaJual());
-            orderProducts.add(newOrder);
+        boolean isHasItem = false;
+        for (Order order:orderProducts){
+            if (order.getId().equals(product.getId())){
+                int Items = order.getQty()+1;
+                int Total = order.getTotalOrder()+product.getHargaJual();
+                if (product.getStock()>=Items){
+                    order.setQty(Items);
+                    order.setTotalOrder(Total);
+                }
+                isHasItem = true;
+                break;
+            }
         }
-
-        String updatedJsonText = gson.toJson(orderProducts);
+        if (!isHasItem){
+            orderProducts.add(new Order(
+                    product.getId(),
+                    product.getName(),
+                    product.getHargaJual(),
+                    product.getImages(),
+                    product.getKategori(),
+                    product.getStock(),
+                    1,
+                    product.getHargaJual()
+            ));
+        }
+        Gson gson = new Gson();
+        String jsonText = gson.toJson(orderProducts);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("orderProduct", updatedJsonText);
+        editor.putString("orderProduct",jsonText);
         editor.apply();
 
         Toast.makeText(getContext(), "Success add to cart", Toast.LENGTH_SHORT).show();
