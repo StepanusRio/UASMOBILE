@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -74,23 +74,22 @@
             android:id="@+id/tvOrderQty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="24dp"
             android:layout_marginBottom="8dp"
             android:text="TextView"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/tvOrderHargaJual" />
 
         <ImageButton
             android:id="@+id/DeleteItem"
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
             android:background="@color/transparent"
-            android:src="@drawable/baseline_cancel_24"
+            android:src="@drawable/trash"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tvOrderQty"
-            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

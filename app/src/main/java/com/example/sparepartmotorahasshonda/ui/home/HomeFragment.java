@@ -1,6 +1,7 @@
 package com.example.sparepartmotorahasshonda.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.sparepartmotorahasshonda.API.ProductService;
 import com.example.sparepartmotorahasshonda.API.RetrofitClient;
 import com.example.sparepartmotorahasshonda.Adapter.ProductAdapter;
+import com.example.sparepartmotorahasshonda.Login;
 import com.example.sparepartmotorahasshonda.Model.Order;
 import com.example.sparepartmotorahasshonda.Model.Product;
 import com.example.sparepartmotorahasshonda.R;
@@ -98,48 +100,53 @@ public class HomeFragment extends Fragment {
         });
     }
     public void addToCart(Product product) {
-        sharedPreferences = getActivity().getSharedPreferences("OrderPreference", Context.MODE_PRIVATE);
-        sharedPreferences.contains("orderProduct");
-        if (sharedPreferences.contains("orderProduct")){
-            Gson gson = new Gson();
-            String jsonText = sharedPreferences.getString("orderProduct", null);
-            Order[] products = gson.fromJson(jsonText, Order[].class);
-            orderProducts.clear();
-            for (Order order : products) {
-                orderProducts.add(order);
-            }
-        }
-        boolean isHasItem = false;
-        for (Order order:orderProducts){
-            if (order.getId().equals(product.getId())){
-                int Items = order.getQty()+1;
-                int Total = order.getTotalOrder()+product.getHargaJual();
-                if (product.getStock()>=Items){
-                    order.setQty(Items);
-                    order.setTotalOrder(Total);
+        sharedPreferences = getActivity().getSharedPreferences("UserPreference",Context.MODE_PRIVATE);
+        if (!sharedPreferences.contains("userLogin")){
+            startActivity(new Intent(getContext(), Login.class));
+        }else{
+            sharedPreferences = getActivity().getSharedPreferences("OrderPreference", Context.MODE_PRIVATE);
+            sharedPreferences.contains("orderProduct");
+            if (sharedPreferences.contains("orderProduct")){
+                Gson gson = new Gson();
+                String jsonText = sharedPreferences.getString("orderProduct", null);
+                Order[] products = gson.fromJson(jsonText, Order[].class);
+                orderProducts.clear();
+                for (Order order : products) {
+                    orderProducts.add(order);
                 }
-                isHasItem = true;
-                break;
             }
-        }
-        if (!isHasItem){
-            orderProducts.add(new Order(
-                    product.getId(),
-                    product.getName(),
-                    product.getHargaJual(),
-                    product.getImages(),
-                    product.getKategori(),
-                    product.getStock(),
-                    1,
-                    product.getHargaJual()
-            ));
-        }
-        Gson gson = new Gson();
-        String jsonText = gson.toJson(orderProducts);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("orderProduct",jsonText);
-        editor.apply();
+            boolean isHasItem = false;
+            for (Order order:orderProducts){
+                if (order.getId().equals(product.getId())){
+                    int Items = order.getQty()+1;
+                    int Total = order.getTotalOrder()+product.getHargaJual();
+                    if (product.getStock()>=Items){
+                        order.setQty(Items);
+                        order.setTotalOrder(Total);
+                    }
+                    isHasItem = true;
+                    break;
+                }
+            }
+            if (!isHasItem){
+                orderProducts.add(new Order(
+                        product.getId(),
+                        product.getName(),
+                        product.getHargaJual(),
+                        product.getImages(),
+                        product.getKategori(),
+                        product.getStock(),
+                        1,
+                        product.getHargaJual()
+                ));
+            }
+            Gson gson = new Gson();
+            String jsonText = gson.toJson(orderProducts);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("orderProduct",jsonText);
+            editor.apply();
 
-        Toast.makeText(getContext(), "Success add to cart", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Success add to cart", Toast.LENGTH_SHORT).show();
+        }
     }
 }
