@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,12 +41,21 @@ public class HomeFragment extends Fragment {
     private List<Product> listProduct = new ArrayList<>();
     private  List<Order> orderProducts = new ArrayList<>();
     private ProductAdapter viewAdapter;
+    TextView TvUsename;
     RecyclerView recyclerView;
     SharedPreferences sharedPreferences;
     ImageSlider imageSlider;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,container,false);
         recyclerView = view.findViewById(R.id.rvProducts);
+        TvUsename = view.findViewById(R.id.tvUsername);
+        SharedPreferences loginPreferences = getActivity().getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE);
+        String username = loginPreferences.getString("username", null); // "" is the default value if "username" doesn't exist
+        if (!username.isEmpty()) {
+            TvUsename.setText(username);
+        } else {
+            TvUsename.setText("you are not login");
+        }
         // Slider Image Featured / Services
         imageSlider = view.findViewById(R.id.imageSlider);
         ArrayList<SlideModel> slideModels = new ArrayList<>();
@@ -100,9 +110,12 @@ public class HomeFragment extends Fragment {
         });
     }
     public void addToCart(Product product) {
-        sharedPreferences = getActivity().getSharedPreferences("UserPreference",Context.MODE_PRIVATE);
-        if (!sharedPreferences.contains("userLogin")){
-            startActivity(new Intent(getContext(), Login.class));
+        SharedPreferences loginPreferences = getActivity().getSharedPreferences("LoginPreferences",Context.MODE_PRIVATE);
+        boolean isLoggedIn = loginPreferences.contains("username");
+        if (!isLoggedIn){
+            Intent loginIntent = new Intent(getContext(),Login.class);
+            startActivity(loginIntent);
+            Toast.makeText(getContext(), "PLEASE LOGIN FIRST", Toast.LENGTH_SHORT).show();
         }else{
             sharedPreferences = getActivity().getSharedPreferences("OrderPreference", Context.MODE_PRIVATE);
             sharedPreferences.contains("orderProduct");
@@ -145,7 +158,6 @@ public class HomeFragment extends Fragment {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("orderProduct",jsonText);
             editor.apply();
-
             Toast.makeText(getContext(), "Success add to cart", Toast.LENGTH_SHORT).show();
         }
     }
