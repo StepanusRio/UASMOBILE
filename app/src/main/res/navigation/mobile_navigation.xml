@@ -22,4 +22,9 @@
         android:name="com.example.sparepartmotorahasshonda.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/navigation_product"
+        android:name="com.example.sparepartmotorahasshonda.ui.product.ProductFragment"
+        android:label="@string/title_product"
+        tools:layout="@layout/fragment_product" />
 </navigation>
