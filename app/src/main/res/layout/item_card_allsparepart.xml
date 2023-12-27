@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutItem"
+    android:layout_width="match_parent"
+    android:layout_height="210dp"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginEnd="12dp"
+    android:elevation="10dp"
+    app:cardCornerRadius="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ProductImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/gajah"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription,ImageContrastCheck" />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:maxWidth="100dp"
+                android:textColor="@color/black"
+                android:text="Nama Product"
+                app:layout_constraintStart_toStartOf="@+id/ProductImage"
+                app:layout_constraintTop_toBottomOf="@+id/ProductImage"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/tvHargaJual"
+                android:layout_width="wrap_content"
+                android:textSize="12sp"
+                android:maxWidth="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Harga Jual"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="@+id/tvName"
+                app:layout_constraintTop_toBottomOf="@+id/tvName"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/tvStok"
+                android:textSize="11sp"
+                android:maxWidth="100dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Stock Product"
+                app:layout_constraintStart_toStartOf="@+id/tvHargaJual"
+                app:layout_constraintTop_toBottomOf="@+id/tvHargaJual"
+                tools:ignore="HardcodedText" />
+
+            <ImageButton
+                android:id="@+id/AddToCartButton"
+                android:layout_width="50dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="-10dp"
+                android:background="@color/transparent"
+                android:src="@drawable/baseline_shopping_cart_checkout_24"
+                app:layout_constraintStart_toEndOf="@+id/tvHargaJual"
+                app:layout_constraintTop_toTopOf="@+id/tvName"
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/DetailProduct"
+                android:layout_width="50dp"
+                android:layout_height="48dp"
+                android:background="@color/transparent"
+                android:src="@drawable/baseline_open_in_new_24"
+                app:layout_constraintStart_toStartOf="@+id/AddToCartButton"
+                app:layout_constraintTop_toBottomOf="@+id/AddToCartButton"
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

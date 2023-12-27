@@ -59,7 +59,7 @@ public class Login extends AppCompatActivity {
     }
 
     void progressLogin (String temail,String tpassword){
-        final String Base_URL = "http://192.168.1.12/APIUTS/";
+        final String Base_URL = "http://192.168.33.174/APIUTS/";
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Base_URL).addConverterFactory(GsonConverterFactory.create()).build();
         UserService api = retrofit.create(UserService.class);
         if (!isEmailValid(EtEmail.getText().toString())) {

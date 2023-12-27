@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import java.text.NumberFormat;
-import java.util.Currency;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,34 +17,34 @@ import com.bumptech.glide.Glide;
 import com.example.sparepartmotorahasshonda.Model.Order;
 import com.example.sparepartmotorahasshonda.Model.Product;
 import com.example.sparepartmotorahasshonda.R;
-import com.example.sparepartmotorahasshonda.ui.home.HomeFragment;
+import com.example.sparepartmotorahasshonda.ui.product.ProductFragment;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
-    public ProductAdapter(Context context,HomeFragment fragment, List<Product> listProduct) {
+public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.ViewHolder> {
+    public AllProductAdapter(Context context,ProductFragment fragment,List<Product> listProduct) {
         this.context = context;
         this.listProduct = listProduct;
         this.fragment = fragment;
-        this.originalList = new ArrayList<>(listProduct);
     }
-    private HomeFragment fragment;
-    private List<Product> originalList;
+    private ProductFragment fragment;
     Context context;
     List<Product> listProduct;
 
     @NonNull
     @Override
-    public ProductAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card_sparepart,parent,false);
-        ViewHolder holder = new ViewHolder(v);
+    public AllProductAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card_allsparepart,parent,false);
+        AllProductAdapter.ViewHolder holder = new AllProductAdapter.ViewHolder(v);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AllProductAdapter.ViewHolder holder, int position) {
         final Product listProduct = this.listProduct.get(position);
         holder.tvName.setText(this.listProduct.get(position).getName());
         int hargaJual = listProduct.getHargaJual();
@@ -73,23 +71,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @Override
     public int getItemCount() {
         return listProduct.size();
-    }
-
-    public void filter(String query) {
-        List<Product> filteredList = new ArrayList<>();
-        if (query.isEmpty()) {
-            filteredList.addAll(originalList); // Revert to the original list
-        } else {
-            String filterPattern = query.toLowerCase().trim();
-            for (Product product : originalList) {
-                if (product.getName().toLowerCase().contains(filterPattern)) {
-                    filteredList.add(product);
-                }
-            }
-        }
-        listProduct.clear();
-        listProduct.addAll(filteredList); // Update the current list with filtered data
-        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

@@ -51,16 +51,17 @@ public class HomeFragment extends Fragment {
         TvUsename = view.findViewById(R.id.tvUsername);
         SharedPreferences loginPreferences = getActivity().getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE);
         String username = loginPreferences.getString("username", null); // "" is the default value if "username" doesn't exist
-        if (!username.isEmpty()) {
-            TvUsename.setText(username);
+        if (username != null) {
+            TvUsename.setText(username.toString());
         } else {
             TvUsename.setText("you are not login");
         }
         // Slider Image Featured / Services
         imageSlider = view.findViewById(R.id.imageSlider);
         ArrayList<SlideModel> slideModels = new ArrayList<>();
-        slideModels.add(new SlideModel(R.drawable.gajah, ScaleTypes.FIT));
-        slideModels.add(new SlideModel(R.drawable.jerapah, ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.banner1, ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.banner2, ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.banner3, ScaleTypes.FIT));
         imageSlider.setImageList(slideModels,ScaleTypes.FIT);
         viewAdapter = new ProductAdapter(getContext(),this,listProduct);
         SearchView searchView = view.findViewById(R.id.searchView);
