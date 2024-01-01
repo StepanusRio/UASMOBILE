@@ -38,13 +38,17 @@
                     tools:ignore="HardcodedText,NestedWeights" />
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvOrderList"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1" />
+                android:layout_height="200dp"
+                android:layout_marginVertical="16dp"
+                android:layout_weight="1">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvOrderList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </androidx.core.widget.NestedScrollView>
 
             <TextView
                 android:id="@+id/textView4"
@@ -55,20 +59,20 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:layout_marginBottom="16dp"
                 tools:ignore="HardcodedText" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:layout_marginTop="16dp"
+                android:layout_margin="10dp"
                 android:background="@color/grey"
                 android:elevation="10dp"
                 app:cardCornerRadius="20dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="10dp">
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:id="@+id/textView5"
@@ -85,12 +89,12 @@
                         tools:ignore="HardcodedText" />
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/tvSubTotalHarga"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Rp. -"
+                        android:text="Rp0,00"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -104,12 +108,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Rp. -"
+                        android:text="Rp0,00"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView8"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSubTotalHarga"
                         tools:ignore="HardcodedText" />
 
                     <TextView
@@ -118,7 +122,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Rp. -"
+                        android:text="Rp0,00"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -168,13 +172,12 @@
                         android:id="@+id/textView11"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:layout_marginTop="16dp"
                         android:text="Total"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="@+id/view"
+                        app:layout_constraintStart_toStartOf="@+id/textView7"
                         app:layout_constraintTop_toBottomOf="@+id/view"
                         tools:ignore="HardcodedText" />
 
@@ -185,6 +188,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="20dp"
                         android:textColor="@color/black"
+                        android:text="Rp0,00"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/textView11"

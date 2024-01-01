@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,15 +21,14 @@ import com.google.gson.Gson;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
 public class OrderFragment extends Fragment {
     private RecyclerView rvOrder;
-    private TextView tvTotal;
-    private List<Order> orderProducts = new ArrayList<>();
+    private TextView tvSubTotal,tvTotalHarga;
+    private final List<Order> orderProducts = new ArrayList<>();
     private OrderAdapter orderAdapter;
     private SharedPreferences sharedPreferences;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +54,7 @@ public class OrderFragment extends Fragment {
                 total += order.getTotalOrder();
                 NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
                 formatRupiah.setCurrency(Currency.getInstance("IDR"));
-                tvTotal.setText(formatRupiah.format(total));
+                tvSubTotal.setText(formatRupiah.format(total));
             }
             orderAdapter = new OrderAdapter(this, getActivity(),orderProducts);
             rvOrder.setAdapter(orderAdapter);
@@ -65,7 +63,8 @@ public class OrderFragment extends Fragment {
 
     private void setUp(View view){
         rvOrder = view.findViewById(R.id.rvOrderList);
-        tvTotal = view.findViewById(R.id.tvTotalHarga);
+        tvSubTotal = view.findViewById(R.id.tvSubTotalHarga);
+        tvTotalHarga=view.findViewById(R.id.tvTotalHarga);
     }
     @SuppressLint("SetTextI18n")
     public void deleteProduct(int position) {
@@ -82,11 +81,11 @@ public class OrderFragment extends Fragment {
                 Integer Ordertotal = 0;
                 Order[] products = gson.fromJson(updateOrderList,Order[].class);
                 for (Order order:products){
-                    Ordertotal = order.getTotalOrder();
+                    Ordertotal += order.getTotalOrder();
                 }
                 NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
                 formatRupiah.setCurrency(Currency.getInstance("IDR"));
-                tvTotal.setText(formatRupiah.format(Ordertotal));
+                tvSubTotal.setText(formatRupiah.format(Ordertotal));
             }
         }
     }
