@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.sparepartmotorahasshonda.API.CostService;
 import com.example.sparepartmotorahasshonda.API.ImageUpload;
+import com.example.sparepartmotorahasshonda.API.RetrofitAPI;
 import com.example.sparepartmotorahasshonda.API.RetrofitClient;
 import com.example.sparepartmotorahasshonda.API.UserService;
 import com.example.sparepartmotorahasshonda.Model.Kota;
@@ -182,7 +183,7 @@ public class EditProfile extends AppCompatActivity implements UserManager.UserLo
                     File imageFile = new File(path_image);
                     RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-file"),imageFile);
                     MultipartBody.Part partImage = MultipartBody.Part.createFormData("imageUploadProfile",imageFile.getName(),requestBody);
-                    ImageUpload uploadService = RetrofitClient.postImage().create(ImageUpload.class);
+                    ImageUpload uploadService = RetrofitAPI.API().create(ImageUpload.class);
                     // Call<ResponseUploadImage> upload = uploadService.uploadImageProfile(partImage);
                     uploadService.uploadImageProfile(partImage).enqueue(new Callback<ResponseUploadImage>() {
                         @Override
@@ -205,24 +206,6 @@ public class EditProfile extends AppCompatActivity implements UserManager.UserLo
                 }catch (Exception e){
                     Log.i("INFO SAVE ERROR", "Error: "+ e);
                 }
-//                upload.enqueue(new Callback<ResponseUploadImage>() {
-//                    @Override
-//                    public void onResponse(Call<ResponseUploadImage> call, Response<ResponseUploadImage> response) {
-//                        if (response.body().getKode().equals("1")) {
-//                            pd.dismiss();
-//                            Log.d("Retrofit", "onSuccess: "+response.body().getPesan());
-//                            imgFileUploaded=response.body().getImageUploaded();
-//                            updateUser(username);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ResponseUploadImage> call, Throwable t) {
-//                        Toast.makeText(EditProfile.this, "GAGAL UPLOAD: "+t.getMessage(), Toast.LENGTH_SHORT).show();
-//                        Log.i("FAILED UPLOAD IMAGE", "onFailure: "+t.getMessage());
-//                        pd.dismiss();
-//                    }
-//                });
             }
         });
     }
@@ -233,9 +216,7 @@ public class EditProfile extends AppCompatActivity implements UserManager.UserLo
     }
 
     private void loadKota(int province_id) {
-        final String Base_URL = "http://192.168.1.14/APIUTS/";
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Base_URL).addConverterFactory(GsonConverterFactory.create()).build();
-        CostService api = retrofit.create(CostService.class);
+        CostService api = RetrofitAPI.API().create(CostService.class);
         Call<ResponseBody> call = api.get_kota(province_id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -268,9 +249,7 @@ public class EditProfile extends AppCompatActivity implements UserManager.UserLo
     }
 
     private void loadProvince() {
-        final String Base_URL = "http://192.168.1.14/APIUTS/";
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Base_URL).addConverterFactory(GsonConverterFactory.create()).build();
-        CostService api = retrofit.create(CostService.class);
+        CostService api = RetrofitAPI.API().create(CostService.class);
         Call<ResponseBody> call = api.get_provinsi();
         Log.i("[INFO LOAD PROVINSI]", "loadProvinsi: CEK LOAD");
         call.enqueue(new Callback<ResponseBody>() {
@@ -313,13 +292,10 @@ public class EditProfile extends AppCompatActivity implements UserManager.UserLo
         String kota = KotaTujuan;
         String kode_pos = String.valueOf(postal_code_tujuan);
         String image = imgFileUploaded;
-        String usernames = username;
 
-        final String BASE_API="http://192.168.1.14/APIUTS/";
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_API).addConverterFactory(GsonConverterFactory.create()).build();
-        UserService api = retrofit.create(UserService.class);
+        UserService api = RetrofitAPI.API().create(UserService.class);
         Call<ResponseUpdateUser> call = api.updateUserProfile(
-                usernames,
+                username,
                 alamat,
                 email,
                 province,
@@ -380,11 +356,19 @@ public class EditProfile extends AppCompatActivity implements UserManager.UserLo
         etAlamat.setText(user.getAlamat());
         etEmail.setText(user.getEmail());
         etPostCode.setText(user.getKode_pos());
-        Glide.with(context)
-                .load("http://192.168.1.14/APIUTS/images/user/"+user.getImage())
-                .centerCrop()
-                .transform(new RoundedCorners(150))
-                .into(profileImage);
+        if (user.getImage() == null) {
+            Glide.with(context)
+                    .load("http://192.168.1.14/APIUTS/images/user/default.jpg")
+                    .centerCrop()
+                    .transform(new RoundedCorners(150))
+                    .into(profileImage);
+        }else{
+            Glide.with(context)
+                    .load("http://192.168.1.14/APIUTS/images/user/"+user.getImage())
+                    .centerCrop()
+                    .transform(new RoundedCorners(150))
+                    .into(profileImage);
+        }
     }
 
     @Override

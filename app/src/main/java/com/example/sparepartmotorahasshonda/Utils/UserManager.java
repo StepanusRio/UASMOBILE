@@ -2,6 +2,7 @@ package com.example.sparepartmotorahasshonda.Utils;
 
 import android.content.Context;
 
+import com.example.sparepartmotorahasshonda.API.RetrofitAPI;
 import com.example.sparepartmotorahasshonda.API.UserService;
 import com.example.sparepartmotorahasshonda.Model.User;
 
@@ -20,12 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserManager {
     public static void CheckUserLogin(String username, Context context, UserLoginListener listener){
-        final String Base_Url = "http://192.168.1.14/APIUTS/";
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Base_Url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        UserService api = retrofit.create(UserService.class);
+        UserService api = RetrofitAPI.API().create(UserService.class);
         Call<ResponseBody> call = api.getUserLogin(username);
         call.enqueue(new Callback<ResponseBody>() {
             @Override

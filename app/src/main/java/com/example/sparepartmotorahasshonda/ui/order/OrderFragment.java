@@ -21,12 +21,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sparepartmotorahasshonda.API.CheckoutService;
 import com.example.sparepartmotorahasshonda.API.CostService;
-import com.example.sparepartmotorahasshonda.API.UserService;
+import com.example.sparepartmotorahasshonda.API.RetrofitAPI;
 import com.example.sparepartmotorahasshonda.Adapter.OrderAdapter;
+import com.example.sparepartmotorahasshonda.Model.Checkout;
 import com.example.sparepartmotorahasshonda.Model.Kota;
 import com.example.sparepartmotorahasshonda.Model.Order;
 import com.example.sparepartmotorahasshonda.Model.Provinsi;
@@ -123,8 +126,9 @@ public class OrderFragment extends Fragment implements UserManager.UserLoginList
             @Override
             public void onClick(View view) {
                 // Data Yang Dapat Kota Tujuan (Id), Provinsi Tujuan (Id), Total Price (Int), SubTotal (Int), Ongkir, Payment Methode
-
-                // Date Checkout
+                String idOrder = generateOrderId();
+                String address = tvAddress.getText().toString();
+                // Checkout Date
                 Calendar calendar = Calendar.getInstance();
                 Date currentDate = calendar.getTime();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -140,19 +144,68 @@ public class OrderFragment extends Fragment implements UserManager.UserLoginList
                     StatusPayment=StatusPayment;
                     PaymentMethode="TRANSFER";
                 }
-                // Payment Status
-                Toast.makeText(getContext(), "Alamat Pembayaran: "+tvAddress.getText().toString(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Kota Tujuan: "+KotaTujuan, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Provinsi Tujuan: "+ProvinsiTujuan, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "SubTotal: "+subtotal, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Ongkir: "+Ongkir, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Total Harga: "+calculatePrice(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Selected Payment Method: "+PaymentMethode, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Tanggal Checkout: " + checkoutDate, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Status Payment: "+StatusPayment, Toast.LENGTH_SHORT).show();
+                int TotalHarga = calculatePrice();
+                // Checkout Data to store in database
+                CheckoutToDatabase(
+                        idOrder,
+                        username,
+                        address,
+                        KotaTujuan,
+                        ProvinsiTujuan,
+                        subtotal,
+                        Ongkir,
+                        TotalHarga,
+                        PaymentMethode,
+                        checkoutDate,
+                        StatusPayment);
             }
         });
         return view;
+    }
+
+    private void CheckoutToDatabase(
+            String idOrder,
+            String username,
+            String alamat,
+            String kota,
+            String provinsi,
+            int subtotal,
+            int ongkir,
+            int totalharga,
+            String paymentmethod,
+            String tanggalcheckout,
+            String statuspayment) {
+        CheckoutService api = RetrofitAPI.API().create(CheckoutService.class);
+        api.Checkout(idOrder,username,alamat,kota,provinsi,subtotal,ongkir,totalharga,paymentmethod,tanggalcheckout,statuspayment)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            JSONObject json = new JSONObject(response.body().string());
+                            Toast.makeText(getContext(), ""+json.getString("message").toString(), Toast.LENGTH_SHORT).show();
+                            removeOrderProductSharedPreferences();
+                        } catch (IOException |JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(getContext(), "Error: "+t, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private String generateOrderId() {
+        SharedPreferences idPreferences = getActivity().getSharedPreferences("OrderIdPreferences", Context.MODE_PRIVATE);
+        int transactionCount = idPreferences.getInt("transactionCount", 0);
+        transactionCount++;
+
+        SharedPreferences.Editor editor = idPreferences.edit();
+        editor.putInt("transactionCount", transactionCount);
+        editor.apply();
+
+        return "TRX" + String.format("%03d", transactionCount);
     }
     // Check User Login
     public void CheckUserLogin(String username){
@@ -184,9 +237,7 @@ public class OrderFragment extends Fragment implements UserManager.UserLoginList
     }
     // Load Province
     private void loadProvinsi(){
-        final String Base_URL = "http://192.168.1.14/APIUTS/";
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Base_URL).addConverterFactory(GsonConverterFactory.create()).build();
-        CostService api = retrofit.create(CostService.class);
+        CostService api = RetrofitAPI.API().create(CostService.class);
         Call<ResponseBody> call = api.get_provinsi();
         Log.i("[INFO LOAD PROVINSI]", "loadProvinsi: CEK LOAD");
         call.enqueue(new Callback<ResponseBody>() {
@@ -218,9 +269,7 @@ public class OrderFragment extends Fragment implements UserManager.UserLoginList
     };
     // Load City
     private void loadKota(int province_id){
-        final String Base_URL = "http://192.168.1.14/APIUTS/";
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Base_URL).addConverterFactory(GsonConverterFactory.create()).build();
-        CostService api = retrofit.create(CostService.class);
+        CostService api = RetrofitAPI.API().create(CostService.class);
         Call<ResponseBody> call = api.get_kota(province_id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -249,6 +298,14 @@ public class OrderFragment extends Fragment implements UserManager.UserLoginList
             }
         });
     }
+    private void removeOrderProductSharedPreferences() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("OrderPreference", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("orderProduct");
+        editor.apply();
+        // Load orders again after removing the entry
+        loadOrder();
+    }
     // Load Order Shared preferences
     private void loadOrder() {
         rvOrder.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -271,6 +328,7 @@ public class OrderFragment extends Fragment implements UserManager.UserLoginList
             }
             orderAdapter = new OrderAdapter(this, getActivity(),orderProducts);
             rvOrder.setAdapter(orderAdapter);
+            orderAdapter.notifyDataSetChanged();
         }
     }
     // Calculating TotalPrice

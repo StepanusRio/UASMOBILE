@@ -10,7 +10,7 @@ import retrofit2.http.Part;
 
 public interface ImageUpload{
     @Multipart
-    @POST("upload_profile_image.php")
+    @POST("upload_function/upload_profile_image.php")
     Call<ResponseUploadImage> uploadImageProfile(@Part MultipartBody.Part image);
 
 }

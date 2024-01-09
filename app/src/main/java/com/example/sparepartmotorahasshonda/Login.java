@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.sparepartmotorahasshonda.API.RetrofitAPI;
 import com.example.sparepartmotorahasshonda.API.RetrofitClient;
 import com.example.sparepartmotorahasshonda.API.UserService;
 import com.example.sparepartmotorahasshonda.ui.home.HomeFragment;
@@ -59,9 +60,7 @@ public class Login extends AppCompatActivity {
     }
 
     void progressLogin (String temail,String tpassword){
-        final String Base_URL = "http://192.168.1.14/APIUTS/";
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Base_URL).addConverterFactory(GsonConverterFactory.create()).build();
-        UserService api = retrofit.create(UserService.class);
+        UserService api = RetrofitAPI.API().create(UserService.class);
         if (!isEmailValid(EtEmail.getText().toString())) {
             AlertDialog.Builder msg = new AlertDialog.Builder(Login.this);
 
