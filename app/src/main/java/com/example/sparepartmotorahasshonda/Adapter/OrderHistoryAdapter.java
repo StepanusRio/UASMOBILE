@@ -96,7 +96,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.tvTotalHarga.setText(formatRupiah.format(orderHistory.getTotalHarga()));
         if (orderHistory.getImageProof() != null) {
             Glide.with(context)
-                    .load("http://192.168.1.14/APIUTS/images/trx/"+orderHistory.getImageProof())
+                    .load(RetrofitAPI.BASE_URL+"images/trx/"+orderHistory.getImageProof())
                     .into(holder.transactionProof);
         }
         if (orderHistory.getImageProofURI() != null){
@@ -226,9 +226,5 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             this.tvTotalHarga = (TextView) itemView.findViewById(R.id.tvTotalHarga);
             this.btnUploadTransactionProof = (Button) itemView.findViewById(R.id.btnUploadTransactionProof);
         }
-//        public void setImage(Uri uri) {
-//            this.transactionProof.setImageURI(uri);
-//        }
-
     }
 }

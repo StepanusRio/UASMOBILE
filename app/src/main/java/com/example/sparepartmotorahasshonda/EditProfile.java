@@ -358,13 +358,13 @@ public class EditProfile extends AppCompatActivity implements UserManager.UserLo
         etPostCode.setText(user.getKode_pos());
         if (user.getImage() == null) {
             Glide.with(context)
-                    .load("http://192.168.1.14/APIUTS/images/user/default.jpg")
+                    .load(RetrofitAPI.BASE_URL+"images/user/default.jpg")
                     .centerCrop()
                     .transform(new RoundedCorners(150))
                     .into(profileImage);
         }else{
             Glide.with(context)
-                    .load("http://192.168.1.14/APIUTS/images/user/"+user.getImage())
+                    .load(RetrofitAPI.BASE_URL+"images/user/"+user.getImage())
                     .centerCrop()
                     .transform(new RoundedCorners(150))
                     .into(profileImage);

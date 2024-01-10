@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.sparepartmotorahasshonda.API.RetrofitAPI;
 import com.example.sparepartmotorahasshonda.ChangePassword;
 import com.example.sparepartmotorahasshonda.EditProfile;
 import com.example.sparepartmotorahasshonda.Login;
@@ -79,7 +80,7 @@ public class ProfileFragment extends Fragment implements UserManager.UserLoginLi
             TvCityProfile.setText("");
             TvProvinceProfile.setText("");
             Glide.with(this)
-                    .load("http://192.168.1.14/APIUTS/images/user/default.jpg")
+                    .load(RetrofitAPI.BASE_URL+"images/user/default.jpg")
                     .centerCrop()
                     .transform(new RoundedCorners(150))
                     .into(profileImage);
@@ -131,7 +132,7 @@ public class ProfileFragment extends Fragment implements UserManager.UserLoginLi
         TvCityProfile.setText(user.getKota());
         TvProvinceProfile.setText(user.getProvinsi());
         Glide.with(context)
-                .load("http://192.168.1.14/APIUTS/images/user/"+user.getImage())
+                .load(RetrofitAPI.BASE_URL+"images/user/"+user.getImage())
                 .centerCrop()
                 .transform(new RoundedCorners(150))
                 .into(profileImage);
