@@ -10,4 +10,8 @@
     <color name="red">#D9363B</color>
     <color name="grey">#ababab</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="red_progress">#B80000</color>
+    <color name="blue_progress">#86A7FC</color>
+    <color name="yellow_progress">#FF9800</color>
+    <color name="green_progress">#65B741</color>
 </resources>

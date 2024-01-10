@@ -13,4 +13,8 @@ public interface ImageUpload{
     @POST("upload_function/upload_profile_image.php")
     Call<ResponseUploadImage> uploadImageProfile(@Part MultipartBody.Part image);
 
+    @Multipart
+    @POST("upload_function/upload_transaction_proof.php")
+    Call<ResponseUploadImage> uploadImageProof(@Part MultipartBody.Part image);
+
 }

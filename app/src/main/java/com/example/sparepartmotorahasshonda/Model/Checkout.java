@@ -1,8 +1,12 @@
 package com.example.sparepartmotorahasshonda.Model;
 
+import android.net.Uri;
+
 public class Checkout {
+    public String imageProof;
     private String Username;
     private String Id_Trx;
+    private String idOrder;
     private String Alamat;
     private String Kota;
     private String Provinsi;
@@ -12,6 +16,7 @@ public class Checkout {
     private String PaymentMethod;
     private String TanggalCheckout;
     private String StatusPayment;
+    private Uri ImageProofURI;
 
     public Checkout(String username,String id_Trx, String alamat, String kota, String provinsi, int subtotal, int ongkir, int totalHarga, String paymentMethod, String tanggalCheckout, String statusPayment) {
         Username = username;
@@ -25,6 +30,30 @@ public class Checkout {
         PaymentMethod = paymentMethod;
         TanggalCheckout = tanggalCheckout;
         StatusPayment = statusPayment;
+    }
+
+    public Uri getImageProofURI() {
+        return ImageProofURI;
+    }
+
+    public void setImageProofURI(Uri imageProofURI) {
+        ImageProofURI = imageProofURI;
+    }
+
+    public String getImageProof() {
+        return imageProof;
+    }
+
+    public void setImageProof(String imageProof) {
+        this.imageProof = imageProof;
+    }
+
+    public String getIdOrder() {
+        return idOrder;
+    }
+
+    public void setIdOrder(String idOrder) {
+        this.idOrder = idOrder;
     }
 
     public String getUsername() {

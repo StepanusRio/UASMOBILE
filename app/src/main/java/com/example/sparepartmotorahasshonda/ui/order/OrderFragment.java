@@ -176,7 +176,7 @@ public class OrderFragment extends Fragment implements UserManager.UserLoginList
             String tanggalcheckout,
             String statuspayment) {
         CheckoutService api = RetrofitAPI.API().create(CheckoutService.class);
-        api.Checkout(idOrder,username,alamat,kota,provinsi,subtotal,ongkir,totalharga,paymentmethod,tanggalcheckout,statuspayment)
+        api.Checkout(idOrder,username,alamat,kota,provinsi,subtotal,ongkir,totalharga,paymentmethod,tanggalcheckout,statuspayment,"")
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

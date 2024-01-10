@@ -2,6 +2,7 @@ package com.example.sparepartmotorahasshonda.API;
 
 import com.example.sparepartmotorahasshonda.Model.Checkout;
 import com.example.sparepartmotorahasshonda.Model.Order;
+import com.example.sparepartmotorahasshonda.Model.ResponseUpdateStatus;
 
 import java.util.List;
 
@@ -10,7 +11,9 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface CheckoutService {
     @FormUrlEncoded
@@ -26,6 +29,14 @@ public interface CheckoutService {
             @Field("TotalHarga") int totalharga,
             @Field("PaymentMethod") String paymentmethod,
             @Field("TanggalCheckout") String tanggalcheckout,
-            @Field("StatusPayment") String statuspayment
+            @Field("StatusPayment") String statuspayment,
+            @Field("imageProof") String imageProof
     );
+
+    @GET("getHistoryOrder.php")
+    Call<Checkout[]> HistoryOrder(@Query("username") String username);
+
+    @FormUrlEncoded
+    @POST("update_status_payment.php")
+    Call<ResponseUpdateStatus> updateStatusPayment(@Field("idOrder") String idOrder, @Field("imageProof") String imageProof);
 }
