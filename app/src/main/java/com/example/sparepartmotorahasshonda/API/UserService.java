@@ -29,4 +29,12 @@ public interface UserService {
                                                @Field("kode_pos") String kode_pos,
                                                @Field("image") String image
                                                );
+
+    @FormUrlEncoded
+    @POST("auth/register.php")
+    Call<ResponseBody> register(@Field("username") String username,@Field("email") String email, @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("auth/changePassword.php")
+    Call<ResponseBody> changePassword(@Field("username") String username,@Field("password") String password);
 }

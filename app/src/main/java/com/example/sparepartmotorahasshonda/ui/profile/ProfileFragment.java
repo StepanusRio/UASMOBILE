@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.sparepartmotorahasshonda.ChangePassword;
 import com.example.sparepartmotorahasshonda.EditProfile;
 import com.example.sparepartmotorahasshonda.Login;
 import com.example.sparepartmotorahasshonda.MainActivity;
@@ -30,7 +31,7 @@ import com.example.sparepartmotorahasshonda.Utils.UserManager;
 public class ProfileFragment extends Fragment implements UserManager.UserLoginListener {
     TextView TvUsernameProfile,TvEmailProfile,TvAddressProfile,TvCityProfile,TvProvinceProfile;
     ImageView profileImage;
-    Button btnLogOut,btnEditProfile,btnHistoryOrder;
+    Button btnLogOut,btnEditProfile,btnHistoryOrder,ResetPassword;
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile,container,false);
@@ -43,6 +44,7 @@ public class ProfileFragment extends Fragment implements UserManager.UserLoginLi
         btnLogOut = view.findViewById(R.id.btnLogout);
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
         btnHistoryOrder = view.findViewById(R.id.btnHistoryOrder);
+        ResetPassword = view.findViewById(R.id.ResetPassword);
         SharedPreferences loginPreferences = getActivity().getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE);
         String username = loginPreferences.getString("username", null); // "" is the default value if "username" doesn't exist
         if (username != null) {
@@ -59,6 +61,14 @@ public class ProfileFragment extends Fragment implements UserManager.UserLoginLi
                 public void onClick(View view) {
                     // Go to Order History Activity
                     Intent intent = new Intent(getContext(), OrderHistory.class);
+                    startActivity(intent);
+                }
+            });
+            ResetPassword.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), ChangePassword.class);
+                    intent.putExtra("username",username);
                     startActivity(intent);
                 }
             });
@@ -90,6 +100,14 @@ public class ProfileFragment extends Fragment implements UserManager.UserLoginLi
                 }
             });
             btnHistoryOrder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intentLogin = new Intent(getContext(), Login.class);
+                    startActivity(intentLogin);
+                    Toast.makeText(getContext(), "PLEASE LOGIN FIRST", Toast.LENGTH_SHORT).show();
+                }
+            });
+            ResetPassword.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intentLogin = new Intent(getContext(), Login.class);

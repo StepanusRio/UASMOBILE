@@ -5,7 +5,6 @@ import android.net.Uri;
 public class Checkout {
     public String imageProof;
     private String Username;
-    private String Id_Trx;
     private String idOrder;
     private String Alamat;
     private String Kota;
@@ -18,19 +17,6 @@ public class Checkout {
     private String StatusPayment;
     private Uri ImageProofURI;
 
-    public Checkout(String username,String id_Trx, String alamat, String kota, String provinsi, int subtotal, int ongkir, int totalHarga, String paymentMethod, String tanggalCheckout, String statusPayment) {
-        Username = username;
-        Id_Trx = id_Trx;
-        Alamat = alamat;
-        Kota = kota;
-        Provinsi = provinsi;
-        Subtotal = subtotal;
-        Ongkir = ongkir;
-        TotalHarga = totalHarga;
-        PaymentMethod = paymentMethod;
-        TanggalCheckout = tanggalCheckout;
-        StatusPayment = statusPayment;
-    }
 
     public Uri getImageProofURI() {
         return ImageProofURI;
@@ -62,14 +48,6 @@ public class Checkout {
 
     public void setUsername(String username) {
         Username = username;
-    }
-
-    public String getId_Trx() {
-        return Id_Trx;
-    }
-
-    public void setId_Trx(String id_Trx) {
-        Id_Trx = id_Trx;
     }
 
     public String getAlamat() {

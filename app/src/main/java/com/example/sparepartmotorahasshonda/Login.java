@@ -36,13 +36,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login extends AppCompatActivity {
     TextInputEditText EtEmail,EtPassword;
-    Button BtnLogin;
+    Button BtnLogin,btnRegister;
     ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         BtnLogin = (Button) findViewById(R.id.btnLogin);
+        btnRegister = (Button) findViewById(R.id.btnRegister);
         EtEmail = (TextInputEditText) findViewById(R.id.EtEmail);
         EtPassword = (TextInputEditText) findViewById(R.id.EtPassword);
         BtnLogin.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +56,13 @@ public class Login extends AppCompatActivity {
                 pd.setIndeterminate(true);
                 pd.show();
                 progressLogin(EtEmail.getText().toString(),EtPassword.getText().toString());
+            }
+        });
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),Register.class);
+                startActivity(intent);
             }
         });
     }

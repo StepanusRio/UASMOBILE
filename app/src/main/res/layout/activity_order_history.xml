@@ -45,17 +45,5 @@
             android:layout_height="wrap_content">
 
         </androidx.recyclerview.widget.RecyclerView>
-        <Button
-            android:id="@+id/btnupdateSTRX"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="30dp"
-            android:text="Save Changes"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout2"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-            tools:ignore="HardcodedText" />
     </LinearLayout>
 </ScrollView>

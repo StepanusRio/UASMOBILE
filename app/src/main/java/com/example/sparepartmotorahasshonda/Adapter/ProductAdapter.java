@@ -1,6 +1,7 @@
 package com.example.sparepartmotorahasshonda.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.sparepartmotorahasshonda.DetailProduct;
 import com.example.sparepartmotorahasshonda.Model.Order;
 import com.example.sparepartmotorahasshonda.Model.Product;
 import com.example.sparepartmotorahasshonda.R;
@@ -66,6 +68,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 fragment.addToCart(listProduct);
+            }
+        });
+        holder.DetailProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailProduct.class);
+                intent.putExtra("sparepartId",listProduct.getId());
+                context.startActivity(intent);
             }
         });
     }

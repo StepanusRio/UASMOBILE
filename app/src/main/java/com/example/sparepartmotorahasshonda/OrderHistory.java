@@ -50,7 +50,6 @@ public class OrderHistory extends AppCompatActivity {
     RecyclerView recyclerView;
     private OrderHistoryAdapter historyAdapter;
     private int clickedItemPosition = -1;
-    String idOrders;
     private final List<Checkout> orderHistory = new ArrayList<>();
     private static final String[] PERMISSIONS_STORAGE={
             android.Manifest.permission.READ_EXTERNAL_STORAGE,

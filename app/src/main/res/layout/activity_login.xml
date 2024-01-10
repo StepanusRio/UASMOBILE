@@ -108,13 +108,27 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginTop="40dp"
-        android:backgroundTint="#DE7773"
+        android:backgroundTint="@color/red"
         android:text="Login"
         android:textSize="14sp"
-        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/TextInputEditTextLayoutPassowrd"
         app:layout_constraintStart_toStartOf="@+id/TextInputEditTextLayoutPassowrd"
         app:layout_constraintTop_toBottomOf="@+id/TextInputEditTextLayoutPassowrd"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/btnRegister"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/black"
+        android:layout_marginTop="20dp"
+        android:text="Register"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/TextInputEditTextLayoutPassowrd"
+        app:layout_constraintStart_toStartOf="@+id/TextInputEditTextLayoutPassowrd"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin"
         tools:ignore="HardcodedText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
