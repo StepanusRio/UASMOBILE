@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
     TextView TvUsename;
     RecyclerView recyclerView;
     SharedPreferences sharedPreferences;
-    ImageSlider imageSlider;
+    ImageSlider imageSlider,imageSliderAboutUs;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,container,false);
         recyclerView = view.findViewById(R.id.rvProducts);
@@ -63,6 +63,15 @@ public class HomeFragment extends Fragment {
         slideModels.add(new SlideModel(R.drawable.banner2, ScaleTypes.FIT));
         slideModels.add(new SlideModel(R.drawable.banner3, ScaleTypes.FIT));
         imageSlider.setImageList(slideModels,ScaleTypes.FIT);
+
+        imageSliderAboutUs = view.findViewById(R.id.imageSliderAboutUs);
+        ArrayList<SlideModel> aboutUsSlideModels = new ArrayList<>();
+        aboutUsSlideModels.add(new SlideModel(R.drawable.banner4, ScaleTypes.FIT));
+        aboutUsSlideModels.add(new SlideModel(R.drawable.banner5, ScaleTypes.FIT));
+        aboutUsSlideModels.add(new SlideModel(R.drawable.honda, ScaleTypes.FIT));
+        aboutUsSlideModels.add(new SlideModel(R.drawable.banner6, ScaleTypes.FIT));
+        imageSliderAboutUs.setImageList(aboutUsSlideModels, ScaleTypes.FIT);
+
         viewAdapter = new ProductAdapter(getContext(),this,listProduct);
         SearchView searchView = view.findViewById(R.id.searchView);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),2);
